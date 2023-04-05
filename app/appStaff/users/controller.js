@@ -1,4 +1,4 @@
-const { createUser, getAllUsers, Login } = require ('../../services/mongoose/users')
+const { createUser, getAllUsers, LoginUsers, LoginBoss } = require ('../../services/mongoose/users')
 const { StatusCodes } = require ('http-status-codes')
 
 const createUserController = async(req, res, next) => {
@@ -34,7 +34,23 @@ const indexUserController = async(req, res, next) => {
 const userLoginController = async(req, res, next) => {
 
     try {
-        const resultLogin = await Login(req)
+        const resultLogin = await LoginUsers(req)
+        
+        res.status(StatusCodes.CREATED).json({ 
+            status: 'success', 
+            data: resultLogin
+        })
+    } 
+    catch (error) {
+        next(error)
+    }
+
+}
+
+const bossLoginController = async(req, res, next) => {
+
+    try {
+        const resultLogin = await LoginBoss(req)
         
         res.status(StatusCodes.CREATED).json({ 
             status: 'success', 
@@ -47,4 +63,4 @@ const userLoginController = async(req, res, next) => {
 
 }
 
-module.exports = { createUserController, indexUserController, userLoginController }
+module.exports = { createUserController, indexUserController, userLoginController, bossLoginController}

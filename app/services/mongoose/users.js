@@ -27,7 +27,24 @@ const checkingUsers = async (id) => {
     return resultChecking
 }
 
-const Login = async(req) => {
+const LoginUsers = async(req) => {
+    
+    const { email, password } = req.body
+    if(!email || !password) throw new BadRequestError('please enter email and password correctly')
+
+    const resultLogin = await User.findOne({ email })
+    if(!resultLogin) throw new ForbiddenError('invalid credentials: Email does not match as registered!')
+
+    const isPasswordCorrect = await resultLogin.comparePassword(password)
+    if(!isPasswordCorrect) throw new ForbiddenError('invalid credentials: Password does not match as registered!')
+
+    delete resultLogin._doc.password
+
+    return resultLogin
+
+}
+
+const LoginBoss = async(req) => {
     
     const { email, password } = req.body
     if(!email || !password) throw new BadRequestError('please enter email and password correctly')
@@ -40,6 +57,7 @@ const Login = async(req) => {
 
     const token = createJWT({ payload: createTokenUser(resultLogin) })
     return token
+
 }
 
-module.exports = { createUser, getAllUsers, checkingUsers, Login }
+module.exports = { createUser, getAllUsers, checkingUsers, LoginUsers, LoginBoss }

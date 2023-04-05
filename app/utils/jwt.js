@@ -22,3 +22,8 @@ const createTokenUser = (user) => {
 const isTokenValid = ({ token }) => jwt.verify(token, jwtSecret)
 
 module.exports = { createJWT, createTokenUser, isTokenValid }
+
+
+
+
+
