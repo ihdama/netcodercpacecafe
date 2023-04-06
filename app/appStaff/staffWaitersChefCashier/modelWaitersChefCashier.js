@@ -7,7 +7,7 @@ const menuListWaitersSchema = Schema (
             type : String,
             required : true
         },
-        harga : {
+        harga : { // mean in english is price
             type: Number,
             default: 0
         },
